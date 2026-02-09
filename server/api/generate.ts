@@ -26,7 +26,6 @@ export default defineEventHandler(async (event) => {
   try {
     // Get models from environment
     const textModel = config.TEXT_MODEL || 'gpt-4o';
-    const imageModel = config.IMAGE_MODEL || 'dall-e-3';
 
     // Step 1: Generate theme name, description, and colors
     const { output: themeData } = await generateText({
@@ -39,28 +38,11 @@ export default defineEventHandler(async (event) => {
       Ensure all colors work well together and provide good contrast for readability.`,
     });
 
-    // Step 2: Generate background image using DALL-E
-    const imageResponse = await fetch('https://api.openai.com/v1/images/generations', {
+    // Step 2: Generate background image using the dedicated endpoint
+    const imageResult = await $fetch<{ imageUrl: string; status: string }>('/api/generate-image', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${config.OPENAI_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: imageModel,
-        prompt: `Create a beautiful background image for a Chrome browser extension theme. The image should be suitable for a desktop wallpaper with dimensions 1920x1280. Theme description: ${description}. High quality, vibrant, and visually appealing.`,
-        n: 1,
-        size: '1792x1024',
-        quality: 'hd',
-      }),
+      body: { description },
     });
-
-    const imageData = await imageResponse.json();
-    const imageUrl = imageData.data?.[0]?.url;
-
-    if (!imageUrl) {
-      throw new Error('Failed to generate image');
-    }
 
     // Return the complete theme data
     return {
@@ -68,7 +50,7 @@ export default defineEventHandler(async (event) => {
       status: 'completed',
       theme: {
         ...themeData,
-        backgroundImage: imageUrl,
+        backgroundImage: imageResult.imageUrl,
       },
     };
   } catch (error: any) {
