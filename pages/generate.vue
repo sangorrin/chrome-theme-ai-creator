@@ -43,9 +43,6 @@
             <ThemePreview :theme="themeData" />
           </div>
         </div>
-
-        <!-- Export section at the bottom -->
-        <ThemeExport :theme="themeData" />
       </div>
     </div>
   </div>
@@ -55,14 +52,12 @@
 import { computed, ref } from 'vue';
 import ThemePreview from '@/components/ThemePreview.vue';
 import ThemeCustomizer from '@/components/ThemeCustomizer.vue';
-import ThemeExport from '@/components/ThemeExport.vue';
 import { useAI } from '@/composables/useAI';
 
 export default {
   components: {
     ThemePreview,
     ThemeCustomizer,
-    ThemeExport,
   },
   setup() {
     const { themeData, regenerateImage } = useAI();

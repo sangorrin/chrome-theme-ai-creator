@@ -106,10 +106,42 @@
         <div><span class="text-gray-600">Description:</span> {{ theme.themeDescription }}</div>
       </div>
     </div>
+
+    <!-- Export Button -->
+    <div class="mt-4">
+      <button
+        @click="downloadTheme"
+        :disabled="isDownloading"
+        class="w-full px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+      >
+        {{ isDownloading ? '⏳ Creating Package...' : '📦 Download Theme Package' }}
+      </button>
+    </div>
+
+    <!-- Installation Instructions -->
+    <div v-if="showInstructions" class="mt-4 p-4 bg-blue-50 border-2 border-blue-200 rounded-xl">
+      <h3 class="font-bold text-gray-900 mb-3 text-sm">Installation Instructions</h3>
+      <ol class="list-decimal list-inside space-y-1 text-gray-700 text-sm">
+        <li>Extract the ZIP file to a folder on your computer</li>
+        <li>Open Chrome and go to <code class="px-2 py-1 bg-gray-100 rounded text-xs">chrome://extensions/</code></li>
+        <li>Enable <strong>Developer mode</strong> in the top right corner</li>
+        <li>Click <strong>Load unpacked</strong> and select the extracted theme folder</li>
+        <li>Your theme will be applied immediately!</li>
+      </ol>
+      <button
+        @click="closeInstructions"
+        class="mt-3 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition-colors"
+      >
+        Got it!
+      </button>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
+import JSZip from 'jszip';
+import { hexToRgb } from '~/utils/chromeTheme';
 interface ThemeData {
   themeName: string;
   themeDescription: string;
@@ -126,7 +158,79 @@ interface ThemeData {
   backgroundImage: string;
 }
 
-defineProps<{
+const props = defineProps<{
   theme: ThemeData;
 }>();
+
+const showInstructions = ref(false);
+const isDownloading = ref(false);
+
+const generateManifest = (useLocalPath: boolean = false) => {
+  return {
+    manifest_version: 3,
+    name: props.theme.themeName,
+    version: '1.0',
+    description: props.theme.themeDescription,
+    theme: {
+      colors: {
+        frame: hexToRgb(props.theme.colors.ntpHeader),
+        toolbar: hexToRgb(props.theme.colors.ntpHeader),
+        tab_text: hexToRgb(props.theme.colors.toolbarText),
+        tab_background_text: hexToRgb(props.theme.colors.bookmarkText),
+        bookmark_text: hexToRgb(props.theme.colors.bookmarkText),
+        ntp_background: hexToRgb(props.theme.colors.ntpHeader),
+        ntp_text: hexToRgb(props.theme.colors.ntpText),
+        ntp_link: hexToRgb(props.theme.colors.ntpLink),
+      },
+      images: {
+        theme_ntp_background: useLocalPath ? 'images/background.png' : props.theme.backgroundImage
+      }
+    }
+  };
+};
+
+const downloadTheme = async () => {
+  isDownloading.value = true;
+
+  try {
+    const zip = new JSZip();
+
+    const manifest = generateManifest(true);
+    zip.file('manifest.json', JSON.stringify(manifest, null, 2));
+
+    const imageUrl = `/api/download-image?url=${encodeURIComponent(props.theme.backgroundImage)}`;
+    const imageResponse = await fetch(imageUrl);
+    if (!imageResponse.ok) {
+      throw new Error('Failed to fetch background image');
+    }
+    const imageBlob = await imageResponse.blob();
+
+    const imagesFolder = zip.folder('images');
+    if (imagesFolder) {
+      imagesFolder.file('background.png', imageBlob);
+    }
+
+    const zipBlob = await zip.generateAsync({ type: 'blob' });
+
+    const url = URL.createObjectURL(zipBlob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${props.theme.themeName.replace(/\s+/g, '_')}_theme.zip`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    showInstructions.value = true;
+  } catch (error) {
+    console.error('Failed to create theme package:', error);
+    alert('Failed to create theme package. Please try again.');
+  } finally {
+    isDownloading.value = false;
+  }
+};
+
+const closeInstructions = () => {
+  showInstructions.value = false;
+};
 </script>
