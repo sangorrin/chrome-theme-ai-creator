@@ -13,13 +13,13 @@
             type="color"
             v-model="localTheme.colors.bookmarkText"
             @input="updateTheme"
-            class="w-16 h-10 rounded cursor-pointer"
+            class="w-20 h-12 rounded cursor-pointer flex-shrink-0"
           />
           <input
             type="text"
             v-model="localTheme.colors.bookmarkText"
             @input="updateTheme"
-            class="flex-1 px-3 py-2 border-2 border-gray-200 rounded-lg font-mono text-sm"
+            class="w-28 px-3 py-2 border-2 border-gray-200 rounded-lg font-mono text-sm"
           />
         </div>
       </div>
@@ -34,13 +34,13 @@
             type="color"
             v-model="localTheme.colors.ntpText"
             @input="updateTheme"
-            class="w-16 h-10 rounded cursor-pointer"
+            class="w-20 h-12 rounded cursor-pointer flex-shrink-0"
           />
           <input
             type="text"
             v-model="localTheme.colors.ntpText"
             @input="updateTheme"
-            class="flex-1 px-3 py-2 border-2 border-gray-200 rounded-lg font-mono text-sm"
+            class="w-28 px-3 py-2 border-2 border-gray-200 rounded-lg font-mono text-sm"
           />
         </div>
       </div>
@@ -55,13 +55,13 @@
             type="color"
             v-model="localTheme.colors.ntpLink"
             @input="updateTheme"
-            class="w-16 h-10 rounded cursor-pointer"
+            class="w-20 h-12 rounded cursor-pointer flex-shrink-0"
           />
           <input
             type="text"
             v-model="localTheme.colors.ntpLink"
             @input="updateTheme"
-            class="flex-1 px-3 py-2 border-2 border-gray-200 rounded-lg font-mono text-sm"
+            class="w-28 px-3 py-2 border-2 border-gray-200 rounded-lg font-mono text-sm"
           />
         </div>
       </div>
@@ -76,13 +76,13 @@
             type="color"
             v-model="localTheme.colors.ntpHeader"
             @input="updateTheme"
-            class="w-16 h-10 rounded cursor-pointer"
+            class="w-20 h-12 rounded cursor-pointer flex-shrink-0"
           />
           <input
             type="text"
             v-model="localTheme.colors.ntpHeader"
             @input="updateTheme"
-            class="flex-1 px-3 py-2 border-2 border-gray-200 rounded-lg font-mono text-sm"
+            class="w-28 px-3 py-2 border-2 border-gray-200 rounded-lg font-mono text-sm"
           />
         </div>
       </div>
@@ -97,13 +97,13 @@
             type="color"
             v-model="localTheme.colors.omniboxBackground"
             @input="updateTheme"
-            class="w-16 h-10 rounded cursor-pointer"
+            class="w-20 h-12 rounded cursor-pointer flex-shrink-0"
           />
           <input
             type="text"
             v-model="localTheme.colors.omniboxBackground"
             @input="updateTheme"
-            class="flex-1 px-3 py-2 border-2 border-gray-200 rounded-lg font-mono text-sm"
+            class="w-28 px-3 py-2 border-2 border-gray-200 rounded-lg font-mono text-sm"
           />
         </div>
       </div>
@@ -118,13 +118,13 @@
             type="color"
             v-model="localTheme.colors.omniboxText"
             @input="updateTheme"
-            class="w-16 h-10 rounded cursor-pointer"
+            class="w-20 h-12 rounded cursor-pointer flex-shrink-0"
           />
           <input
             type="text"
             v-model="localTheme.colors.omniboxText"
             @input="updateTheme"
-            class="flex-1 px-3 py-2 border-2 border-gray-200 rounded-lg font-mono text-sm"
+            class="w-28 px-3 py-2 border-2 border-gray-200 rounded-lg font-mono text-sm"
           />
         </div>
       </div>
@@ -139,13 +139,13 @@
             type="color"
             v-model="localTheme.colors.toolbarText"
             @input="updateTheme"
-            class="w-16 h-10 rounded cursor-pointer"
+            class="w-20 h-12 rounded cursor-pointer flex-shrink-0"
           />
           <input
             type="text"
             v-model="localTheme.colors.toolbarText"
             @input="updateTheme"
-            class="flex-1 px-3 py-2 border-2 border-gray-200 rounded-lg font-mono text-sm"
+            class="w-28 px-3 py-2 border-2 border-gray-200 rounded-lg font-mono text-sm"
           />
         </div>
       </div>
@@ -160,16 +160,27 @@
             type="color"
             v-model="localTheme.colors.toolbarButtonIcon"
             @input="updateTheme"
-            class="w-16 h-10 rounded cursor-pointer"
+            class="w-20 h-12 rounded cursor-pointer flex-shrink-0"
           />
           <input
             type="text"
             v-model="localTheme.colors.toolbarButtonIcon"
             @input="updateTheme"
-            class="flex-1 px-3 py-2 border-2 border-gray-200 rounded-lg font-mono text-sm"
+            class="w-28 px-3 py-2 border-2 border-gray-200 rounded-lg font-mono text-sm"
           />
         </div>
       </div>
+    </div>
+
+    <!-- Regenerate Background Button -->
+    <div class="mt-6 pt-6 border-t border-gray-200">
+      <button
+        @click="$emit('regenerate-background')"
+        :disabled="isRegenerating"
+        class="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+      >
+        {{ isRegenerating ? '🎨 Generating New Background...' : '🎨 Regenerate Background Image' }}
+      </button>
     </div>
 
   </div>
@@ -196,10 +207,12 @@ interface ThemeData {
 
 const props = defineProps<{
   theme: ThemeData;
+  isRegenerating?: boolean;
 }>();
 
 const emit = defineEmits<{
   'update-theme': [theme: ThemeData];
+  'regenerate-background': [];
 }>();
 
 const localTheme = ref(JSON.parse(JSON.stringify(props.theme)));

@@ -5,30 +5,28 @@
     <!-- Chrome Browser Mockup -->
     <div class="chrome-browser rounded-lg overflow-hidden shadow-2xl border-2 border-gray-200">
       <!-- Chrome Header -->
-      <div class="chrome-header px-4 py-3 flex items-center space-x-2"
+      <div class="chrome-header px-2 py-3 flex items-center space-x-1"
            :style="{ backgroundColor: theme.colors.ntpHeader }">
-        <div class="flex space-x-1.5">
+        <div class="flex space-x-1.5 flex-shrink-0">
           <div class="w-3 h-3 rounded-full bg-red-500"></div>
           <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
           <div class="w-3 h-3 rounded-full bg-green-500"></div>
         </div>
 
         <!-- Omnibox (Address Bar) -->
-        <div class="flex-1 mx-4 px-4 py-2 rounded-full flex items-center space-x-2"
+        <div class="flex-1 mx-2 px-3 py-2 rounded-full flex items-center space-x-2 min-w-0 overflow-hidden"
              :style="{
                backgroundColor: theme.colors.omniboxBackground,
                color: theme.colors.omniboxText
              }">
-          <span>🔒</span>
-          <span class="text-sm">chrome://newtab</span>
+          <span class="flex-shrink-0">🔒</span>
+          <span class="text-sm truncate">chrome://newtab</span>
         </div>
 
         <!-- Toolbar Icons -->
-        <div class="flex items-center space-x-3"
+        <div class="flex items-center space-x-2 flex-shrink-0"
              :style="{ color: theme.colors.toolbarButtonIcon }">
-          <span>⭐</span>
           <span>⚙️</span>
-          <span>👤</span>
         </div>
       </div>
 
@@ -45,7 +43,7 @@
       </div>
 
       <!-- New Tab Page Content -->
-      <div class="ntp-content relative h-96 flex flex-col items-center justify-center p-8"
+      <div class="ntp-content relative h-96 flex flex-col items-center justify-center p-4 sm:p-8"
            :style="{
              backgroundImage: theme.backgroundImage ? `url(${theme.backgroundImage})` : 'none',
              backgroundSize: 'cover',
@@ -53,17 +51,31 @@
              backgroundColor: theme.colors.ntpHeader
            }">
         <div class="ntp-overlay absolute inset-0 bg-black bg-opacity-10"></div>
-        <div class="relative z-10 text-center">
-          <h1 class="text-5xl font-bold mb-4 drop-shadow-lg"
+        <div class="relative z-10 text-center w-full max-w-2xl px-4">
+          <h1 class="text-3xl sm:text-5xl font-bold mb-6 sm:mb-8 drop-shadow-lg"
               :style="{ color: theme.colors.ntpText }">
             New Tab
           </h1>
-          <div class="flex space-x-4 mt-8">
-            <a href="#" class="px-4 py-2 rounded hover:underline"
+
+          <!-- Search Box -->
+          <div class="mb-6 sm:mb-8 w-full max-w-xl mx-auto">
+            <div class="bg-white bg-opacity-90 rounded-full px-4 sm:px-6 py-3 sm:py-4 flex items-center shadow-lg">
+              <span class="text-gray-400 mr-3">🔍</span>
+              <input
+                type="text"
+                placeholder="Search Google or type a URL"
+                class="flex-1 bg-transparent outline-none text-gray-700 text-sm sm:text-base"
+                disabled
+              />
+            </div>
+          </div>
+
+          <div class="flex flex-wrap justify-center gap-2 sm:gap-4">
+            <a href="#" class="px-3 sm:px-4 py-2 rounded hover:underline text-sm sm:text-base"
                :style="{ color: theme.colors.ntpLink }">
               Most Visited
             </a>
-            <a href="#" class="px-4 py-2 rounded hover:underline"
+            <a href="#" class="px-3 sm:px-4 py-2 rounded hover:underline text-sm sm:text-base"
                :style="{ color: theme.colors.ntpLink }">
               Apps
             </a>

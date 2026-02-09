@@ -27,8 +27,24 @@
           <p class="text-lg text-gray-600">{{ themeData.themeDescription }}</p>
         </div>
 
-        <ThemePreview :theme="themeData" />
-        <ThemeCustomizer :theme="themeData" @update-theme="handleThemeUpdate" />
+        <!-- Two-column layout on large screens: Customizer (left) and Preview (right, wider) -->
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+          <!-- Preview first on mobile, left column (2/5) on desktop -->
+          <div class="lg:col-span-2 order-1 lg:order-1">
+            <ThemeCustomizer
+              :theme="themeData"
+              @update-theme="handleThemeUpdate"
+              @regenerate-background="regenerateBackground"
+              :is-regenerating="isRegeneratingBackground"
+            />
+          </div>
+          <!-- Customizer second on mobile, right column (3/5) on desktop -->
+          <div class="lg:col-span-3 order-0 lg:order-2">
+            <ThemePreview :theme="themeData" />
+          </div>
+        </div>
+
+        <!-- Export section at the bottom -->
         <ThemeExport :theme="themeData" />
       </div>
     </div>
@@ -36,7 +52,7 @@
 </template>
 
 <script lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import ThemePreview from '@/components/ThemePreview.vue';
 import ThemeCustomizer from '@/components/ThemeCustomizer.vue';
 import ThemeExport from '@/components/ThemeExport.vue';
@@ -49,15 +65,35 @@ export default {
     ThemeExport,
   },
   setup() {
-    const { themeData } = useAI();
+    const { themeData, regenerateImage } = useAI();
+    const isRegeneratingBackground = ref(false);
 
     const handleThemeUpdate = (updatedTheme: any) => {
       themeData.value = updatedTheme;
     };
 
+    const regenerateBackground = async () => {
+      if (!themeData.value) return;
+
+      isRegeneratingBackground.value = true;
+      try {
+        const response = await regenerateImage(themeData.value.themeDescription);
+        if (response?.imageUrl && themeData.value) {
+          themeData.value = {
+            ...themeData.value,
+            backgroundImage: response.imageUrl
+          };
+        }
+      } finally {
+        isRegeneratingBackground.value = false;
+      }
+    };
+
     return {
       themeData,
       handleThemeUpdate,
+      regenerateBackground,
+      isRegeneratingBackground,
     };
   },
 };
