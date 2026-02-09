@@ -9,7 +9,7 @@
           Create and customize your own Chrome themes effortlessly with AI!
         </p>
       </div>
-      <ThemeGenerator @generate="handleGenerate" />
+      <ThemeGenerator />
     </div>
   </div>
 </template>
