@@ -1,6 +1,6 @@
 import { defineEventHandler, readBody } from 'h3';
 import { openai } from '@ai-sdk/openai';
-import { generateText, generateObject } from 'ai';
+import { generateText, Output } from 'ai';
 import { z } from 'zod';
 
 // Schema for theme colors
@@ -29,9 +29,11 @@ export default defineEventHandler(async (event) => {
     const imageModel = config.IMAGE_MODEL || 'dall-e-3';
 
     // Step 1: Generate theme name, description, and colors
-    const { object: themeData } = await generateObject({
+    const { output: themeData } = await generateText({
       model: openai(textModel),
-      schema: ThemeColorsSchema,
+      output: Output.object({
+        schema: ThemeColorsSchema,
+      }),
       prompt: `Generate a Chrome browser theme based on this description: "${description}".
       Create a cohesive color palette that matches the theme.
       Ensure all colors work well together and provide good contrast for readability.`,
