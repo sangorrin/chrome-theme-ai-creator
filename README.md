@@ -4,12 +4,13 @@
 Chrome Theme AI Creator is a web application that allows users to generate and customize Chrome themes using artificial intelligence. The application provides an intuitive interface for users to input their preferences and see real-time previews of their themes.
 
 ## Tech Stack
-- **Nuxt 3** - Vue.js framework with SSR support
-- **Vue 3** - Progressive JavaScript framework
-- **TypeScript** - Type-safe development
-- **Vercel AI SDK** - AI integration with OpenAI
+- **Nuxt 4** - Vue.js framework with SSR support
+- **Vue 3.5** - Progressive JavaScript framework
+- **TypeScript 5.9** - Type-safe development
+- **Vercel AI SDK 6** - AI integration with OpenAI
 - **OpenAI GPT-4o** - Text generation (theme names, colors, descriptions)
 - **OpenAI DALL-E 3** - Image generation (theme backgrounds)
+- **Zod 4** - Schema validation
 
 ## Features
 - **Theme Generation**: Users can input a description and select colors to generate a Chrome theme.
@@ -34,7 +35,7 @@ chrome-theme-ai-creator
 ├── server
 │   └── api
 │       ├── generate.ts
-│       └── themes.ts
+│       └── generate-image.ts
 ├── public
 │   └── manifest.json
 ├── types
