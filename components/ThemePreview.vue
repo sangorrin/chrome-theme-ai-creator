@@ -4,29 +4,43 @@
 
     <!-- Chrome Browser Mockup -->
     <div class="chrome-browser rounded-lg overflow-hidden shadow-2xl border-2 border-gray-200">
-      <!-- Chrome Header -->
-      <div class="chrome-header px-2 py-3 flex items-center space-x-1"
+      <!-- Chrome Header with Tabs -->
+      <div class="chrome-header px-2 py-2 pb-0"
            :style="{ backgroundColor: theme.colors.ntpHeader }">
-        <div class="flex space-x-1.5 flex-shrink-0">
-          <div class="w-3 h-3 rounded-full bg-red-500"></div>
-          <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-          <div class="w-3 h-3 rounded-full bg-green-500"></div>
+        <!-- Tabs -->
+        <div class="flex items-end space-x-1 mb-2">
+          <div class="px-3 py-2 bg-white bg-opacity-20 rounded-t-lg flex items-center space-x-2">
+            <span class="text-sm" :style="{ color: theme.colors.toolbarText }">New Tab</span>
+          </div>
+          <div class="px-3 py-1 text-xs opacity-60 flex items-center">
+            <span :style="{ color: theme.colors.toolbarText }">+</span>
+          </div>
         </div>
 
-        <!-- Omnibox (Address Bar) -->
-        <div class="flex-1 mx-2 px-3 py-2 rounded-full flex items-center space-x-2 min-w-0 overflow-hidden"
-             :style="{
-               backgroundColor: theme.colors.omniboxBackground,
-               color: theme.colors.omniboxText
-             }">
-          <span class="flex-shrink-0">🔒</span>
-          <span class="text-sm truncate">chrome://newtab</span>
-        </div>
+        <!-- Address bar row -->
+        <div class="flex items-center space-x-1 pb-3">
+          <div class="flex space-x-1.5 flex-shrink-0">
+            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+          </div>
 
-        <!-- Toolbar Icons -->
-        <div class="flex items-center space-x-2 flex-shrink-0"
-             :style="{ color: theme.colors.toolbarButtonIcon }">
-          <span>⚙️</span>
+          <!-- Omnibox (Address Bar) -->
+          <div class="flex-1 mx-2 px-3 py-2 rounded-full flex items-center space-x-2 min-w-0 overflow-hidden"
+               :style="{
+                 backgroundColor: theme.colors.omniboxBackground,
+                 color: theme.colors.omniboxText
+               }">
+            <span class="flex-shrink-0">🔒</span>
+            <span class="text-sm truncate">chrome://newtab</span>
+          </div>
+
+          <!-- Toolbar Icons -->
+          <div class="flex items-center space-x-2 flex-shrink-0 text-lg"
+               :style="{ color: theme.colors.toolbarButtonIcon }">
+            <span>★</span>
+            <span>⋮</span>
+          </div>
         </div>
       </div>
 
