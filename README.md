@@ -41,7 +41,7 @@ chrome-theme-ai-creator
 │       ├── generate-image.ts
 │       └── download-image.ts
 ├── public
-│   └── manifest.json
+│   └── (favicon files)
 ├── utils
 │   └── colorUtils.ts
 ├── .env.example
