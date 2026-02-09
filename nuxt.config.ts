@@ -20,7 +20,11 @@ export default defineNuxtConfig({
         { name: 'description', content: 'Create and customize Chrome themes using AI.' }
       ],
       link: [
-        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+        { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon_16.png' },
+        { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon_32.png' },
+        { rel: 'apple-touch-icon', sizes: '180x180', href: '/favicon_180.png' },
+        { rel: 'icon', type: 'image/png', sizes: '512x512', href: '/favicon_512.png' }
       ]
     }
   },
