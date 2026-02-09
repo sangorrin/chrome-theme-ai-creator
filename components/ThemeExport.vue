@@ -10,13 +10,6 @@
       >
         {{ isDownloading ? '⏳ Creating Package...' : '📦 Download Theme Package' }}
       </button>
-
-      <button
-        @click="copyManifest"
-        class="w-full px-8 py-4 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-xl shadow-lg transition-colors text-lg"
-      >
-        📋 Copy Manifest JSON
-      </button>
     </div>
 
     <div v-if="showInstructions" class="mt-8 p-6 bg-blue-50 border-2 border-blue-200 rounded-xl">
@@ -34,10 +27,6 @@
       >
         Got it!
       </button>
-    </div>
-
-    <div v-if="copied" class="mt-4 p-4 bg-green-50 border-2 border-green-200 rounded-xl text-green-700 text-center">
-      ✅ Manifest JSON copied to clipboard!
     </div>
   </div>
 </template>
@@ -68,7 +57,6 @@ const props = defineProps<{
 }>();
 
 const showInstructions = ref(false);
-const copied = ref(false);
 const isDownloading = ref(false);
 
 const generateManifest = (useLocalPath: boolean = false) => {
@@ -139,19 +127,6 @@ const downloadTheme = async () => {
     alert('Failed to create theme package. Please try again.');
   } finally {
     isDownloading.value = false;
-  }
-};
-
-const copyManifest = async () => {
-  const manifest = generateManifest(false);
-  try {
-    await navigator.clipboard.writeText(JSON.stringify(manifest, null, 2));
-    copied.value = true;
-    setTimeout(() => {
-      copied.value = false;
-    }, 3000);
-  } catch (err) {
-    console.error('Failed to copy manifest:', err);
   }
 };
 
