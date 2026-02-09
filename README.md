@@ -87,7 +87,6 @@ npm install
    TEXT_MODEL=gpt-4o
    IMAGE_MODEL=dall-e-3
    NUXT_PUBLIC_API_URL=http://localhost:3000
-   NUXT_PUBLIC_THEME_STORAGE_URL=
    ```
 
 ### 5. Run the development server
@@ -105,7 +104,6 @@ The application will be available at `http://localhost:3000`.
 | `TEXT_MODEL` | OpenAI model for text generation (theme names, colors) | No | `gpt-4o` |
 | `IMAGE_MODEL` | OpenAI model for image generation (backgrounds) | No | `dall-e-3` |
 | `NUXT_PUBLIC_API_URL` | Base URL for API endpoints | No | `http://localhost:3000` |
-| `NUXT_PUBLIC_THEME_STORAGE_URL` | URL for theme file storage (Vercel Blob, etc.) | No | - |
 
 ### Available Models
 

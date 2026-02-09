@@ -13,7 +13,6 @@ export default defineNuxtConfig({
     // Public keys that are exposed to the client
     public: {
       apiUrl: process.env.NUXT_PUBLIC_API_URL || 'http://localhost:3000',
-      themeStorageUrl: process.env.NUXT_PUBLIC_THEME_STORAGE_URL || '',
     }
   },
 
