@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
       },
       body: JSON.stringify({
         model: imageModel,
-        prompt: `Create a beautiful background image for a Chrome browser theme: ${description}. High quality, 1920x1080, suitable for desktop wallpaper.`,
+        prompt: `Create a beautiful background image for a Chrome browser extension theme. The image should be suitable for a desktop wallpaper with dimensions 1920x1280. Theme description: ${description}. High quality, vibrant, and visually appealing.`,
         n: 1,
         size: '1792x1024',
         quality: 'hd',

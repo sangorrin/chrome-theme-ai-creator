@@ -1,76 +1,138 @@
 <template>
-  <div class="theme-generator">
-    <h2>Chrome Theme AI Creator</h2>
-    <form @submit.prevent="generateTheme">
-      <div>
-        <label for="description">Theme Description:</label>
-        <input type="text" v-model="themeDescription" id="description" required />
+  <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 backdrop-blur-sm bg-opacity-90">
+    <form @submit.prevent="generateTheme" class="space-y-8">
+      <div class="space-y-3">
+        <label for="description" class="block text-lg font-semibold text-gray-700">
+          Theme Description
+        </label>
+        <div class="relative">
+          <textarea
+            v-model="themeDescription"
+            id="description"
+            required
+            placeholder="Describe your theme... (type # to insert a color)"
+            @input="handleInput"
+            @keydown="handleKeydown"
+            ref="textareaRef"
+            class="w-full min-h-[200px] px-4 py-3 text-gray-700 bg-gray-50 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-200 resize-y font-mono text-sm"
+          />
+          <input
+            v-if="showColorPicker"
+            type="color"
+            ref="colorPickerRef"
+            @change="insertColor"
+            @blur="hideColorPicker"
+            class="fixed z-50 opacity-0 pointer-events-auto"
+            :style="{ top: colorPickerPosition.top + 'px', left: colorPickerPosition.left + 'px' }"
+          />
+          <div class="absolute bottom-3 right-3 text-xs text-gray-400 bg-white px-2 py-1 rounded">
+            💡 Tip: Type # for color picker
+          </div>
+        </div>
       </div>
-      <div>
-        <label for="color">Choose a Color:</label>
-        <input type="color" v-model="themeColor" id="color" required />
-      </div>
-      <button type="submit">Generate Theme</button>
+      <button
+        type="submit"
+        class="w-full md:w-auto px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-blue-300 text-lg"
+      >
+        ✨ Generate Theme
+      </button>
     </form>
   </div>
 </template>
 
 <script lang="ts">
-import { ref } from 'vue';
+import { ref, nextTick } from 'vue';
 import { useAI } from '@/composables/useAI';
 
 export default {
   setup() {
     const themeDescription = ref('');
-    const themeColor = ref('#ffffff');
+    const showColorPicker = ref(false);
+    const colorPickerPosition = ref({ top: 0, left: 0 });
+    const textareaRef = ref<HTMLTextAreaElement | null>(null);
+    const colorPickerRef = ref<HTMLInputElement | null>(null);
+    const hashPosition = ref(0);
     const { generateTheme } = useAI();
 
+    const handleInput = (event: Event) => {
+      const target = event.target as HTMLTextAreaElement;
+      const cursorPos = target.selectionStart;
+      const text = target.value;
+
+      // Check if the character before cursor is #
+      if (cursorPos > 0 && text[cursorPos - 1] === '#') {
+        showColorPicker.value = true;
+        hashPosition.value = cursorPos - 1;
+
+        // Calculate position for color picker
+        nextTick(() => {
+          if (textareaRef.value) {
+            const rect = textareaRef.value.getBoundingClientRect();
+            colorPickerPosition.value = {
+              top: rect.top + 30,
+              left: rect.left + 20
+            };
+
+            // Focus color picker
+            if (colorPickerRef.value) {
+              colorPickerRef.value.click();
+            }
+          }
+        });
+      }
+    };
+
+    const handleKeydown = (event: KeyboardEvent) => {
+      // Close color picker on Escape
+      if (event.key === 'Escape' && showColorPicker.value) {
+        showColorPicker.value = false;
+      }
+    };
+
+    const insertColor = (event: Event) => {
+      const target = event.target as HTMLInputElement;
+      const color = target.value;
+
+      // Replace the # with the full color code
+      const before = themeDescription.value.substring(0, hashPosition.value);
+      const after = themeDescription.value.substring(hashPosition.value + 1);
+      themeDescription.value = before + color + after;
+
+      showColorPicker.value = false;
+
+      // Refocus textarea
+      nextTick(() => {
+        if (textareaRef.value) {
+          textareaRef.value.focus();
+          const newPos = hashPosition.value + color.length;
+          textareaRef.value.setSelectionRange(newPos, newPos);
+        }
+      });
+    };
+
+    const hideColorPicker = () => {
+      setTimeout(() => {
+        showColorPicker.value = false;
+      }, 200);
+    };
+
     const handleThemeGeneration = async () => {
-      await generateTheme(themeDescription.value, themeColor.value);
+      await generateTheme(themeDescription.value);
     };
 
     return {
       themeDescription,
-      themeColor,
+      showColorPicker,
+      colorPickerPosition,
+      textareaRef,
+      colorPickerRef,
+      handleInput,
+      handleKeydown,
+      insertColor,
+      hideColorPicker,
       generateTheme: handleThemeGeneration,
     };
   },
 };
 </script>
 
-<style scoped>
-.theme-generator {
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-}
-.theme-generator h2 {
-  margin-bottom: 15px;
-}
-.theme-generator form {
-  display: flex;
-  flex-direction: column;
-}
-.theme-generator label {
-  margin-bottom: 5px;
-}
-.theme-generator input[type="text"],
-.theme-generator input[type="color"] {
-  margin-bottom: 15px;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-.theme-generator button {
-  padding: 10px;
-  background-color: #0070f3;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-.theme-generator button:hover {
-  background-color: #005bb5;
-}
-</style>

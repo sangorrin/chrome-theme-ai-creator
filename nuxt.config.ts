@@ -2,6 +2,8 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
 
+  modules: ['@nuxtjs/tailwindcss'],
+
   runtimeConfig: {
     // Private keys that are only available server-side
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
