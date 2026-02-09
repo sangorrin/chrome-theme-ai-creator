@@ -3,7 +3,7 @@ import { ref } from 'vue';
 export function useAI() {
   const loading = ref(false);
   const error = ref<string | null>(null);
-  const themeData = ref<any>(null);
+  const themeData = useState<any>('generatedTheme', () => null);
   const progress = ref(0);
 
   const generateTheme = async (description: string) => {
