@@ -1,5 +1,9 @@
 # Chrome Theme AI Creator
 
+Create beautiful Chrome themes using AI-powered generation and customization.
+
+<img src="./screenshot-generated.png" alt="Chrome Theme AI Creator" width="700">
+
 ## Overview
 Chrome Theme AI Creator is a web application that allows users to generate and customize Chrome themes using artificial intelligence. The application provides an intuitive interface for users to input their preferences and see real-time previews of their themes.
 
