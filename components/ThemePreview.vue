@@ -141,7 +141,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import JSZip from 'jszip';
-import { hexToRgb } from '~/utils/chromeTheme';
+import { hexToRgb } from '~/utils/colorUtils';
 interface ThemeData {
   themeName: string;
   themeDescription: string;

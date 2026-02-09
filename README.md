@@ -43,7 +43,7 @@ chrome-theme-ai-creator
 ├── public
 │   └── manifest.json
 ├── utils
-│   └── chromeTheme.ts
+│   └── colorUtils.ts
 ├── .env.example
 ├── nuxt.config.ts
 ├── package.json
