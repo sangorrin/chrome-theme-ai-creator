@@ -2,22 +2,27 @@
   "name": "chrome-theme-ai-creator",
   "version": "1.0.0",
   "description": "A web application for generating and customizing Chrome themes using AI.",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "dev": "nuxt",
+    "dev": "nuxt dev",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "nuxt": "^2.15.8",
-    "ai": "^3.0.0",
-    "@ai-sdk/openai": "^0.0.24",
-    "zod": "^3.22.4"
+    "nuxt": "^4.3.1",
+    "vue": "^3.5.28",
+    "vue-router": "^5.0.2",
+    "ai": "^6.0.78",
+    "@ai-sdk/openai": "^3.0.26",
+    "zod": "^4.3.6",
+    "h3": "^2.0.1-rc.14"
   },
   "devDependencies": {
-    "typescript": "^4.5.4",
-    "@nuxt/types": "^2.15.8"
+    "@nuxt/devtools": "^3.1.1",
+    "typescript": "^5.9.3"
   },
   "author": "Your Name",
   "license": "MIT"
