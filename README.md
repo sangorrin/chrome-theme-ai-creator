@@ -112,12 +112,9 @@ The application will be available at `http://localhost:3000`.
 
 1. Install Vercel CLI: `npm i -g vercel`
 2. Run `vercel` in the project directory
-3. Configure environment variables (use Vercel Secrets for the OpenAI key):
-   - Add `TEXT_MODEL` and `IMAGE_MODEL` in Project → Settings → Environment Variables (these are non-sensitive).
-   - Store your OpenAI key as a Vercel Secret and map it to `OPENAI_API_KEY` so builds receive it:
-   ```bash
-   vercel secrets add openai_api_key <YOUR_OPENAI_KEY>
-   ```
+3. Configure environment variables in Project → Settings → Environment Variables:
+   - Add `OPENAI_API_KEY` with your key and toggle the **Sensitive** checkbox ON.
+   - Add `TEXT_MODEL` (default: `gpt-4o`) and `IMAGE_MODEL` (default: `dall-e-3`) as non-sensitive variables.
 
 ## Usage
 - Navigate to the landing page to input your theme description and select colors.
