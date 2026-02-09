@@ -86,7 +86,6 @@ npm install
    OPENAI_API_KEY=sk-proj-xxxxxxxxxxxxx
    TEXT_MODEL=gpt-4o
    IMAGE_MODEL=dall-e-3
-   NUXT_PUBLIC_API_URL=http://localhost:3000
    ```
 
 ### 5. Run the development server
@@ -103,7 +102,6 @@ The application will be available at `http://localhost:3000`.
 | `OPENAI_API_KEY` | Your OpenAI API key from platform.openai.com | Yes | - |
 | `TEXT_MODEL` | OpenAI model for text generation (theme names, colors) | No | `gpt-4o` |
 | `IMAGE_MODEL` | OpenAI model for image generation (backgrounds) | No | `dall-e-3` |
-| `NUXT_PUBLIC_API_URL` | Base URL for API endpoints | No | `http://localhost:3000` |
 
 ### Available Models
 
@@ -114,10 +112,12 @@ The application will be available at `http://localhost:3000`.
 
 1. Install Vercel CLI: `npm i -g vercel`
 2. Run `vercel` in the project directory
-3. Add your environment variables in the Vercel dashboard:
-   - Go to your project settings
-   - Navigate to "Environment Variables"
-   - Add `OPENAI_API_KEY`, `TEXT_MODEL`, and `IMAGE_MODEL`
+3. Configure environment variables (use Vercel Secrets for the OpenAI key):
+   - Add `TEXT_MODEL` and `IMAGE_MODEL` in Project → Settings → Environment Variables (these are non-sensitive).
+   - Store your OpenAI key as a Vercel Secret and map it to `OPENAI_API_KEY` so builds receive it:
+   ```bash
+   vercel secrets add openai_api_key <YOUR_OPENAI_KEY>
+   ```
 
 ## Usage
 - Navigate to the landing page to input your theme description and select colors.

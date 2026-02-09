@@ -8,12 +8,7 @@ export default defineNuxtConfig({
     // Private keys that are only available server-side
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
     TEXT_MODEL: process.env.TEXT_MODEL || 'gpt-4o',
-    IMAGE_MODEL: process.env.IMAGE_MODEL || 'dall-e-3',
-
-    // Public keys that are exposed to the client
-    public: {
-      apiUrl: process.env.NUXT_PUBLIC_API_URL || 'http://localhost:3000',
-    }
+    IMAGE_MODEL: process.env.IMAGE_MODEL || 'dall-e-3'
   },
 
   app: {
