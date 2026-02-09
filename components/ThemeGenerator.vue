@@ -70,7 +70,7 @@ export default {
     const textareaRef = ref<HTMLTextAreaElement | null>(null);
     const colorPickerRef = ref<HTMLInputElement | null>(null);
     const hashPosition = ref(0);
-    const { loading, error, generateTheme, themeData } = useAI();
+    const { loading, error, generateTheme } = useAI();
 
     const handleInput = (event: Event) => {
       const target = event.target as HTMLTextAreaElement;
@@ -137,10 +137,8 @@ export default {
     const handleThemeGeneration = async () => {
       try {
         await generateTheme(themeDescription.value);
-        if (themeData.value) {
-          // Navigate to generate page to show the theme
-          await navigateTo('/generate');
-        }
+        // Navigate to generate page to show the theme
+        await navigateTo('/generate');
       } catch (err) {
         // Error is already handled in useAI
         console.error('Theme generation error:', err);

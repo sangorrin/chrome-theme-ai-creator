@@ -27,21 +27,18 @@ chrome-theme-ai-creator
 │   ├── ThemeCustomizer.vue
 │   └── ThemeExport.vue
 ├── composables
-│   ├── useAI.ts
-│   └── useTheme.ts
+│   └── useAI.ts
 ├── pages
 │   ├── index.vue
 │   └── generate.vue
 ├── server
 │   └── api
 │       ├── generate.ts
-│       └── generate-image.ts
+│       ├── generate-image.ts
+│       └── download-image.ts
 ├── public
 │   └── manifest.json
-├── types
-│   └── index.ts
 ├── utils
-│   ├── themeBuilder.ts
 │   └── chromeTheme.ts
 ├── .env.example
 ├── nuxt.config.ts

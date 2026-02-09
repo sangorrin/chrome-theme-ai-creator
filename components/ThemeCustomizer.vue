@@ -172,14 +172,6 @@
       </div>
     </div>
 
-    <div class="mt-6 flex space-x-4">
-      <button
-        @click="regenerateImage"
-        class="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl shadow-lg transition-colors"
-      >
-        🎨 Regenerate Background Image
-      </button>
-    </div>
   </div>
 </template>
 
@@ -208,7 +200,6 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   'update-theme': [theme: ThemeData];
-  'regenerate-image': [];
 }>();
 
 const localTheme = ref(JSON.parse(JSON.stringify(props.theme)));
@@ -219,10 +210,6 @@ watch(() => props.theme, (newTheme) => {
 
 const updateTheme = () => {
   emit('update-theme', localTheme.value);
-};
-
-const regenerateImage = () => {
-  emit('regenerate-image');
 };
 
 </script>

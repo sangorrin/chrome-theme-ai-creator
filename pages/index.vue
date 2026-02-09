@@ -22,12 +22,5 @@ export default defineComponent({
   components: {
     ThemeGenerator,
   },
-  methods: {
-    handleGenerate(themeData: any) {
-      // Logic to handle theme generation
-      // This will typically involve navigating to the generate page
-      // with the themeData passed as props or via a store
-    },
-  },
 });
 </script>

@@ -4,12 +4,10 @@ export function useAI() {
   const loading = ref(false);
   const error = ref<string | null>(null);
   const themeData = useState<any>('generatedTheme', () => null);
-  const progress = ref(0);
 
   const generateTheme = async (description: string) => {
     loading.value = true;
     error.value = null;
-    progress.value = 0;
 
     try {
       // Call the API endpoint to generate the theme
@@ -18,7 +16,6 @@ export function useAI() {
         body: { description },
       });
 
-      progress.value = 100;
       themeData.value = response.theme;
 
       return response;
@@ -59,7 +56,6 @@ export function useAI() {
     loading,
     error,
     themeData,
-    progress,
     generateTheme,
     regenerateImage,
   };
